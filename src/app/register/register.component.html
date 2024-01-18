@@ -1,0 +1,65 @@
+<mat-card>
+    <mat-card-content>
+        <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+        <h2>Sign Up</h2>
+        <mat-error *ngIf="!emailValid">
+            The email provided is already registered
+        </mat-error>        
+        <mat-error *ngIf="!passwordValid">
+            The passwords do not match
+        </mat-error>        
+        <mat-form-field appearance="fill">
+            <mat-label>Profile Picture</mat-label>
+            <div class="fileUploadContainer" [ngStyle]="{'margin-top' : editForm.get('photo')!.value ? '5px' :  '20px'}">
+              <ng-container *ngIf="editForm.get('photo')!.value">
+                <img [src]="editForm.get('photo')!.value" />
+                <button class="deleteButton" mat-icon-button (click)="fileInput.value = ''; editForm.get('photo')?.setValue(null);">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </ng-container>
+              <!-- no image -->
+              <div *ngIf="!editForm.get('photo')!.value" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+                <mat-icon style="opacity: 60%;">file_upload</mat-icon>                
+              </div>
+              <!-- put on top of the fileUploadContainer with opacity 0 -->
+              <input #fileInput class="fileInput" type="file" accept="image/*"
+                (change)="setFileData($event)" />
+            </div>
+            <input matInput [(ngModel)]="photo" name="pfp" readonly [hidden]="true " />
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="text" placeholder="Name" [(ngModel)]="firstName" name="firstName" required>
+            <mat-error>
+            Please provide a valid input
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="text" placeholder="Last Name" [(ngModel)]="lastName" name="lastName" required>
+            <mat-error>
+            Please provide a valid input
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Email" [(ngModel)]="username" name="username" required>
+            <mat-error>
+            Please provide a valid email address
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
+            <mat-error>
+            Please provide a valid password
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="password" placeholder="Confirm Password" [(ngModel)]="password2" name="password2" required>
+            <mat-error>
+            Please provide a valid password
+            </mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary">Sign Up</button>
+        </form>
+        <br>
+        <a href="/login">Login</a>
+    </mat-card-content>
+</mat-card>

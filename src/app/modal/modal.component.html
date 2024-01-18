@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<div mat-dialog-content>
+  <form>
+    <p>Post Header</p>
+    <mat-form-field>
+      <input matInput placeholder="Header" [(ngModel)]="data.header" name="header">
+    </mat-form-field>
+    <p>Post subtitle</p>
+    <mat-form-field>
+      <input matInput placeholder="Subtitle" [(ngModel)]="data.sub" name="sub">
+    </mat-form-field>
+    <p>Post Image Url</p>
+    <mat-form-field>
+      <input matInput placeholder="Image Url" [(ngModel)]="data.imageUrl" name="imageUrl">
+    </mat-form-field>
+    <p>Post Description</p>
+    <mat-form-field>
+      <input matInput placeholder="Post Description" [(ngModel)]="data.desc" name="desc">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Submit</button>
+</div>

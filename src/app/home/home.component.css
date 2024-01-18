@@ -1,0 +1,49 @@
+.navbar-spacer {
+    flex: 1 1 auto;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;        
+    height: auto;
+    background-color: #f4f4f4;
+}
+
+.full-width-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;    
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.text {
+    margin: 0;
+}
+
+.button {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.mat-divider {
+    display: block;
+    margin: 0;
+    border-top-width: 2px;
+    border-top-style: solid;
+    border-top-color: black;
+    width: 100%;
+}
+.post-area{
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+    flex-direction: column;    
+}
+mat-card{
+    width: 60%;
+    margin-top: 15px;
+}

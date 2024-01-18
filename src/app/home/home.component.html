@@ -1,0 +1,40 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <mat-icon>dashboard</mat-icon>
+        <span>My App</span>
+        <span class="navbar-spacer"></span>
+        <button mat-icon-button class="example-icon" aria-label="Profile" (click)="logout()">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+      </mat-toolbar-row>
+</mat-toolbar>
+<div class="full-width-row">
+    <h2 class="text">Posts</h2>
+    <button class="button" mat-raised-button color="primary" margin-left="auto" (click)="openCreateDialog()">Create Post    
+        <mat-icon>description</mat-icon>
+    </button>
+</div>
+<mat-divider></mat-divider>
+<body>
+<br>
+<div class="post-area">
+  <mat-card *ngFor="let post of posts">
+    <mat-card-header>
+      <div mat-card-avatar><mat-icon>perm_identity</mat-icon></div>
+      <mat-card-title>{{post.header}}</mat-card-title>
+      <mat-card-subtitle>{{post.sub}}</mat-card-subtitle>
+    </mat-card-header>  
+    <img *ngIf="post.imageUrl != undefined" mat-card-image src= {{post.imageUrl}} alt="Placeholder Image">  
+    <mat-card-content>
+      <p>
+        {{post.body}}
+      </p>
+    </mat-card-content>  
+    <br>
+    <mat-card-footer *ngIf="currentUser == post.owner">
+      <button mat-raised-button color="primary" (click)="openEditDialog(post)">Edit</button>      
+      <button mat-raised-button color="primary" (click)="openDeleteDialog(post)">Delete</button>
+    </mat-card-footer>
+  </mat-card>  
+</div>
+</body>
