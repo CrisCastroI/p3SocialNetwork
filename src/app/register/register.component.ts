@@ -56,6 +56,9 @@ export class RegisterComponent {
     }
     users.push({id: (users.length+1) ,user: this.username,pass: this.password,name: this.firstName,lastName: this.lastName});
     localStorage.setItem("userCredentials",JSON.stringify(users));
-    this._router.navigateByUrl("/login");
+    this._router.navigateByUrl("/login");    
+  }
+  public toLogin(){
+    this._router.navigateByUrl("/login");    
   }
 }
