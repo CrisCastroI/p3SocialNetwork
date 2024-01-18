@@ -52,4 +52,10 @@ export class LoginComponent implements OnInit{
     });
     this.loginValid = false;    
   }
+  public toRegister(){
+    this._router.navigateByUrl("/register");    
+  }
+  public toResetPassword(){
+    this._router.navigateByUrl("/profile");    
+  }
 }

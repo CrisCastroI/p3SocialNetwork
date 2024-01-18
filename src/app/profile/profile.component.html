@@ -1,29 +1,33 @@
-<form #loginForm="ngForm" (ngSubmit)="onSubmit()">
-<h2>Change Password</h2>
-<mat-error *ngIf="!emailValid">
-    The email provided is not registered
-</mat-error>        
-<mat-error *ngIf="!passwordValid">
-    The passwords do not match
-</mat-error>            
-<mat-form-field>
-    <input matInput type="text" placeholder="Email" [(ngModel)]="email" name="email" required>
-    <mat-error>
-    Please provide a valid input
-    </mat-error>
-</mat-form-field>
-<mat-form-field>
-    <input matInput type="password" placeholder="New Password" [(ngModel)]="password" name="password" required>
-    <mat-error>
-    Please provide a valid input
-    </mat-error>
-</mat-form-field>
-<mat-form-field>
-    <input matInput type="password" placeholder="Confirm Password" [(ngModel)]="password2" name="password2" required>
-    <mat-error>
-    Please provide a valid email address
-    </mat-error>
-</mat-form-field>    
-<button mat-raised-button color="primary">Change Password</button>
-</form>
-<br>
+<mat-card>
+    <mat-card-content>
+        <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+        <h2>Change Password</h2>
+        <mat-error *ngIf="!emailValid">
+            The email provided is not registered
+        </mat-error>        
+        <mat-error *ngIf="!passwordValid">
+            The passwords do not match
+        </mat-error>            
+        <mat-form-field>
+            <input matInput type="text" placeholder="Email" [(ngModel)]="email" name="email" required>
+            <mat-error>
+            Please provide a valid input
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="password" placeholder="New Password" [(ngModel)]="password" name="password" required>
+            <mat-error>
+            Please provide a valid input
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="password" placeholder="Confirm Password" [(ngModel)]="password2" name="password2" required>
+            <mat-error>
+            Please provide a valid email address
+            </mat-error>
+        </mat-form-field>    
+        <button mat-raised-button color="primary">Change Password</button>
+        </form>
+        <br>
+    </mat-card-content>
+</mat-card>
