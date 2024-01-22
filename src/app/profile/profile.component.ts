@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserServiceService } from '../services/user-service.service';
+import { IUser } from '../Models/IUser';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +18,10 @@ export class ProfileComponent {
   editForm = this.fb.group({
     photo: []
   });
-  constructor(private fb: UntypedFormBuilder, private _router: Router) { }
+  constructor(private fb: UntypedFormBuilder, 
+    private _router: Router,
+    private _userService: UserServiceService) { }
+
   setFileData(event: Event): void {
     const eventTarget: HTMLInputElement | null = event.target as HTMLInputElement | null;
     if (eventTarget?.files?.[0]) {
@@ -28,6 +33,7 @@ export class ProfileComponent {
       reader.readAsDataURL(file);
     }
   }
+
   public onSubmit(): void {    
     this.emailValid = true;
     let exists = false;
@@ -36,8 +42,8 @@ export class ProfileComponent {
     if(this.password == "" || this.password2 == ""
       || this.email == "")
       return;    
-    let users = JSON.parse(localStorage.getItem("userCredentials") as string);        
-    users.forEach((user:any) => {           
+    let users:IUser[] = this._userService.getUsers();
+    users.forEach((user:IUser) => {           
       if(this.email === user.user){        
         exists=true;
         modifiedUser=user;
@@ -51,18 +57,9 @@ export class ProfileComponent {
       this.emailValid = false;
       return;
     }
-    let index = users.indexOf(modifiedUser);
-    console.log(modifiedUser);
+    let index = users.indexOf(modifiedUser);    
     users[index]=({id: modifiedUser.id,user: modifiedUser.user,pass: this.password,name: modifiedUser.name,lastName: modifiedUser.lastName});
-    localStorage.setItem("userCredentials",JSON.stringify(users));
+    this._userService.setUsers(users);
     this._router.navigateByUrl("/login");
-  }
-
-  changePassword(){
-
-  }
-
-  logout(){
-
   }
 }

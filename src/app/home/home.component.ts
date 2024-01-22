@@ -3,27 +3,31 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalComponent } from '../modal/modal.component';
 import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
-import { Post} from 'src/app/Models/Post';
+import { IPost} from 'src/app/Models/IPost';
+import { PostServiceService } from '../services/post-service.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent implements OnInit{  
   constructor(    
     private _router: Router,        
-    public dialog: MatDialog
+    public dialog: MatDialog,    
+    private _postService:PostServiceService
   ) {}
-  public currentUser=sessionStorage.getItem("user") as string;
+  public currentUser = this._postService.getCurrentSession();
   public ownerSession = false;
-  public posts = JSON.parse(localStorage.getItem("userPosts") as string); 
+  public posts:IPost[] = this._postService.getPosts(); 
   ngOnInit(): void {    
     if(!sessionStorage.getItem("user") || this.currentUser == ""){
       this._router.navigateByUrl("/login");
     }        
   }
-  openEditDialog(post:Post): void {
+
+  openEditDialog(post:IPost): void {
     let id = post.id;
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '400px',
@@ -36,19 +40,20 @@ export class HomeComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      let editedPost;
-      let previousPost;
-      this.posts.forEach((post:Post) => {
+      let editedPost!:IPost;
+      let previousPost!:IPost;
+      this.posts.forEach((post:IPost) => {
         if(id == post.id){
           previousPost = post;
-          editedPost = new Post(id,result.header,result.sub,result.imageUrl,result.desc,this.currentUser);                    
+          editedPost = {id:post.id,header:result.header,sub:result.sub,imageUrl:result.imageUrl,body:result.desc,owner:this.currentUser};                    
         }
       });      
       let index = this.posts.indexOf(previousPost);
       this.posts[index] = editedPost;      
-      localStorage.setItem("userPosts", JSON.stringify(this.posts));      
+      this._postService.setPosts(this.posts);
     });
   }
+
   openCreateDialog(): void {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '400px',
@@ -56,12 +61,13 @@ export class HomeComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      let newPost = new Post((this.posts.length+1),result.header,result.sub,result.imageUrl,result.desc,this.currentUser)
+      let newPost:IPost = {id:(this.posts.length+1),header:result.header,sub:result.sub,imageUrl:result.imageUrl,body:result.desc,owner:this.currentUser}
       this.posts.push(newPost);
-      localStorage.setItem("userPosts", JSON.stringify(this.posts));      
+      this._postService.setPosts(this.posts);
     });
   }
-  openDeleteDialog(post:Post): void {
+
+  openDeleteDialog(post:IPost): void {
     let id = this.posts.indexOf(post);
     const dialogRef = this.dialog.open(DeleteModalComponent, {
       width: '400px',
@@ -71,7 +77,7 @@ export class HomeComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe(result => {            
       this.posts.splice(id,1);
-      localStorage.setItem("userPosts", JSON.stringify(this.posts));      
+      this._postService.setPosts(this.posts);
     });
   }
 

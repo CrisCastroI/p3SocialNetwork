@@ -8,4 +8,5 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
 
 ## Hosting
 
-Yet to be deployed
+Hosted in
+https://criscastroi.github.io/p3SocialNetwork/login

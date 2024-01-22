@@ -6,16 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
 import { MatDividerModule} from '@angular/material/divider';
-import { MatListModule} from '@angular/material/list';
-import { RouterModule, RouterOutlet } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { MatDialogModule } from '@angular/material/dialog'
 
@@ -25,6 +18,7 @@ import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ModalComponent } from './modal/modal.component';
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
+import { UserServiceService } from './services/user-service.service';
 
 @NgModule({
   declarations: [
@@ -41,22 +35,16 @@ import { DeleteModalComponent } from './delete-modal/delete-modal.component';
     BrowserAnimationsModule,
     MatToolbarModule,
     MatInputModule,
-    MatCardModule,
-    MatMenuModule,
+    MatCardModule,  
     MatIconModule,
-    MatButtonModule,
-    MatTableModule,
-    MatSlideToggleModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatDividerModule,
-    MatListModule,
+    MatButtonModule,                
+    MatDividerModule,    
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule    
   ],
-  providers: [],
+  providers: [UserServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

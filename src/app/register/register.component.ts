@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IUser } from 'src/app/Models/IUser';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
+
 export class RegisterComponent {
   public passwordValid = true;
   public emailValid = true;
@@ -19,7 +21,9 @@ export class RegisterComponent {
   editForm = this.fb.group({
     photo: []
   });
+
   constructor(private fb: UntypedFormBuilder, private _router: Router) { }
+
   setFileData(event: Event): void {
     const eventTarget: HTMLInputElement | null = event.target as HTMLInputElement | null;
     if (eventTarget?.files?.[0]) {
@@ -31,6 +35,7 @@ export class RegisterComponent {
       reader.readAsDataURL(file);
     }
   }
+
   public onSubmit(): void {    
     this.emailValid = true;
     this.passwordValid = true;
@@ -39,13 +44,12 @@ export class RegisterComponent {
       || this.username == "" || this.password == ""
       || this.password2 == "")
       return;    
-    let users = JSON.parse(localStorage.getItem("userCredentials") as string);        
-    users.forEach((user:any) => {           
+    let users:IUser[] = JSON.parse(localStorage.getItem("userCredentials") as string);        
+    users.forEach((user:IUser) => {           
       if(this.username === user.user){
         this.emailValid = false;        
         return;        
-      }  
-      console.log(this.emailValid);                  
+      }           
     });
     if(this.password != this.password2){
       this.passwordValid = false;
@@ -54,10 +58,11 @@ export class RegisterComponent {
     if(!this.emailValid){
       return;
     }
-    users.push({id: (users.length+1) ,user: this.username,pass: this.password,name: this.firstName,lastName: this.lastName});
+    users.push({id: (users.length + 1) ,user: this.username,pass: this.password,name: this.firstName,lastName: this.lastName});
     localStorage.setItem("userCredentials",JSON.stringify(users));
-    this._router.navigateByUrl("/login");    
+    this._router.navigateByUrl("/login");
   }
+
   public toLogin(){
     this._router.navigateByUrl("/login");    
   }

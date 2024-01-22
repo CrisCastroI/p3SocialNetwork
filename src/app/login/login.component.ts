@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { EMPTY, isEmpty } from 'rxjs';
-import { Post} from 'src/app/Models/Post';
+import { IPost} from 'src/app/Models/IPost';
+import { IUser} from 'src/app/Models/IUser';
+import { UserServiceService } from '../services/user-service.service';
 
 @Component({
   selector: 'app-login',
@@ -15,26 +17,12 @@ export class LoginComponent implements OnInit{
 
   constructor(    
     private _router: Router,    
+    private _userService: UserServiceService
   ) {}
 
   public ngOnInit(): void{
-    if(!localStorage.getItem("userCredentials") || !localStorage.getItem("userPosts")){    
-      class userCredential{
-        constructor(public id:number,public user: String,public pass: String
-          ,public name: String, public lastName: String){}
-      }      
-      let posts = [
-        new Post(1,"Header","Subtitle","https://via.placeholder.com/150","Post body","uno@gmail.com"),        
-        new Post(2,"Header 2","Subtitle 2","https://via.placeholder.com/150","Post body 2","uno@gmail.com"),
-        new Post(3,"Header 3","Subtitle 3","https://via.placeholder.com/150","Post body 3","dos@gmail.com")
-      ]    
-      let users = [
-        new userCredential(1,"uno@gmail.com","Uno","Uno Name", "Unos LastName"),
-        new userCredential(2,"dos@gmail.com","Dos","Dos Name", "Dos LastName"),
-        new userCredential(3,"tres@gmail.com","Tres","Tres Name", "Tres LastName")
-      ];    
-      localStorage.setItem("userCredentials",JSON.stringify(users));
-      localStorage.setItem("userPosts",JSON.stringify(posts));
+    if(!localStorage.getItem("userCredentials") || !localStorage.getItem("userPosts")){                      
+      this._userService.populateLocalStorage();
     }    
   }
 
@@ -42,8 +30,8 @@ export class LoginComponent implements OnInit{
     if(this.username=="" || this.password==""){
       return;      
     }
-    let users = JSON.parse(localStorage.getItem("userCredentials") as string);
-    users.forEach((user: any) => {      
+    let users:IUser[] = this._userService.getUsers();
+    users.forEach((user: IUser) => {      
       if(user.user == this.username && user.pass == this.password){
         sessionStorage.setItem("user",this.username);
         this._router.navigateByUrl("/home");
@@ -52,9 +40,11 @@ export class LoginComponent implements OnInit{
     });
     this.loginValid = false;    
   }
+
   public toRegister(){
     this._router.navigateByUrl("/register");    
   }
+
   public toResetPassword(){
     this._router.navigateByUrl("/profile");    
   }
